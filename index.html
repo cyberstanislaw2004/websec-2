@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Прогноз погоды</h1>
+        <p>Выберите город на карте или воспользуйтесь поиском</p>
+    </header>
+
+    <main>
+        <div id="search-block">
+            <label for="citySearch">Поиск города:</label>
+            <input type="text" id="citySearch" placeholder="Введите название города..." autocomplete="off" />
+            <div id="searchResults"></div>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="controls">
+            <span>Городов на карте: <b id="markerCount">0</b></span>
+            <label>Мин. население:
+                <select id="populationFilter">
+                    <option value="0">Все</option>
+                    <option value="100000">100 000+</option>
+                    <option value="250000">250 000+</option>
+                    <option value="500000">500 000+</option>
+                    <option value="1000000">1 000 000+</option>
+                </select>
+            </label>
+        </div>
+
+        <section id="forecast">
+            <h2 id="forecastTitle">Выберите город</h2>
+            <div id="forecastMeta"></div>
+            <div id="forecastStatus"><p>Нажмите на маркер на карте для просмотра прогноза.</p></div>
+
+            <div id="currentWeather" style="display:none;">
+                <div id="currentMain">
+                    <span id="currentTemp">--</span><span class="deg">°C</span>
+                </div>
+                <div id="currentDetails">
+                    <div><span class="dlb">Ощущается</span><br><span id="curFeels">--</span></div>
+                    <div><span class="dlb">Влажность</span><br><span id="curHumidity">--</span></div>
+                    <div><span class="dlb">Ветер</span><br><span id="curWind">--</span></div>
+                    <div><span class="dlb">Давление</span><br><span id="curPressure">--</span></div>
+                    <div><span class="dlb">Осадки</span><br><span id="curPrecip">--</span></div>
+                    <div><span class="dlb">Облачность</span><br><span id="curClouds">--</span></div>
+                </div>
+            </div>
+
+            <div id="loader" style="display:none;"><p>Загрузка...</p></div>
+            <div id="errorBox" style="display:none;"><p id="errorMsg"></p></div>
+
+            <div id="charts" style="display:none;">
+                <div class="charts-row">
+                    <div class="chart-box"><h3>Температура (°C)</h3><canvas id="tempChart"></canvas></div>
+                    <div class="chart-box"><h3>Осадки (мм)</h3><canvas id="precipChart"></canvas></div>
+                    <div class="chart-box"><h3>Ветер (м/с)</h3><canvas id="windChart"></canvas></div>
+                </div>
+                <div id="dailyBlock">
+                    <h3>Прогноз на 7 дней</h3>
+                    <table id="dailyTable">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Днём</th>
+                                <th>Ночью</th>
+                                <th>Осадки</th>
+                                <th>Ветер</th>
+                                <th>Влажность</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="settlements.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
